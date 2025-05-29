@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Lista de Personas</title>
+  <style>
+    body { font-family: Arial; }
+    .persona {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+    }
+    img {
+      border-radius: 50%;
+      margin-right: 15px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Lista de 10 Personas</h2>
+<div id="personas"></div>
+
+<script>
+  fetch('http://localhost:9090/api/personas')
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById('personas');
+      data.forEach(persona => {
+        const div = document.createElement('div');
+        div.className = 'persona';
+        div.innerHTML = `
+          <img src="${persona.fotografia}" alt="Foto">
+          <div>
+            <strong>Nombre:</strong> ${persona.nombre} <br>
+            <strong>Género:</strong> ${persona.genero} <br>
+            <strong>Ubicación:</strong> ${persona.ubicacion} <br>
+            <strong>Correo:</strong> ${persona.correoElectronico} <br>
+            <strong>Fecha de Nacimiento:</strong> ${new Date(persona.fechaNacimiento).toLocaleDateString()}
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    });
+</script>
+
+</body>
+</html>
